@@ -10,11 +10,6 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const isLoggedIn = localStorage.getItem("LoggedIn") === "true";
 
-  function logout() {
-    setOpen(false);
-    navigate("/Login", { replace: true });
-  }
-
   useEffect(() => {
     const currentPathname = window.location.pathname;
     if (
@@ -26,6 +21,12 @@ const Navbar = () => {
       if (!isLoggedIn) navigate("/Login", { replace: true });
     }
   }, [isLoggedIn, navigate]);
+
+  function logout() {
+    localStorage.setItem("LoggedIn", "false");
+    setOpen(false);
+    navigate("/Login", { replace: true });
+  }
 
   useEffect(() => {
     setActiveLink("Discover");

@@ -13,7 +13,7 @@ const Login = () => {
     // const email = document.getElementById("emailLogin").value;
     // const password = document.getElementById("passwordLogin").value;
     // const rememberMe = document.getElementById("check").checked;
-
+    localStorage.setItem("LoggedIn", true);
     navigate("/Discover");
   };
 
