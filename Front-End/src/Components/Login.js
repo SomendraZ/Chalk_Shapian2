@@ -1,22 +1,47 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "../CSS/Login.css";
 import Gif from "../Resources/Chalk_Shapian.gif";
 
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { auth } from "../FireBase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 const google =
   "https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [values, setValues] = useState({ email: "", password: "" });
+  const login = async (event) => {
+    event.preventDefault();
+    const email = values.email;
+    const password = values.password;
+    // Check if any of the input fields are empty
+    if (!email || !password) {
+      alert("Please fill out all the fields before submitting.");
+      return;
+    }
 
-  const login = async () => {
-    // const email = document.getElementById("emailLogin").value;
-    // const password = document.getElementById("passwordLogin").value;
-    // const rememberMe = document.getElementById("check").checked;
-    localStorage.setItem("LoggedIn", true);
-    navigate("/Discover");
+    signInWithEmailAndPassword(auth, email, password)
+      .then(async (res) => {
+        sessionStorage.setItem("LoggedIn", true);
+        navigate("/Discover");
+      })
+      .catch((err) => {
+        if (err.code === "auth/user-not-found") {
+          alert(
+            "No user found with this email address. Please check your email and try again."
+          );
+        } else if (err.code === "auth/wrong-password") {
+          alert(
+            "Incorrect password. Please check your password and try again."
+          );
+        } else {
+          console.log(err);
+          alert("An error occurred. Please try again later.");
+        }
+      });
   };
-
   return (
     <>
       <div className="bg">
@@ -26,10 +51,31 @@ const Login = () => {
           </div>
           <div className="loginPage">
             <div className="loginToAccount">Login To Your Account</div>
-            <div className="emailLogin">EMAIL</div>
-            <input id="emailLogin" placeholder="Email" type="email" />
-            <div className="passwordLogin">PASSWORD</div>
-            <input id="passwordLogin" placeholder="Password" type="password" />
+            <div>
+              <div className="emailLogin">EMAIL</div>
+              <input
+                id="emailLogin"
+                placeholder="Email"
+                type="email"
+                onChange={(event) =>
+                  setValues((prev) => ({ ...prev, email: event.target.value }))
+                }
+              />
+            </div>
+            <div>
+              <div className="passwordLogin">PASSWORD</div>
+              <input
+                id="passwordLogin"
+                placeholder="Password"
+                type="password"
+                onChange={(event) =>
+                  setValues((prev) => ({
+                    ...prev,
+                    password: event.target.value,
+                  }))
+                }
+              />
+            </div>
             <div className="remember">
               <input type="checkbox" id="check" />
               &nbsp;Remember me
@@ -44,7 +90,7 @@ const Login = () => {
             </div>
             <div className="google">
               <img src={google} alt="" id="google" />
-              Login with Google
+              Sign-in with Google
             </div>
             <div className="noAccount">
               <div className="dont">Don’t have an account?</div>
@@ -58,5 +104,4 @@ const Login = () => {
     </>
   );
 };
-
 export default Login;
