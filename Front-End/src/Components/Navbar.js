@@ -8,8 +8,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState("");
   const [open, setOpen] = useState(false);
-  const LoggedIn = localStorage.getItem("LoggedIn") === "true";
-  const name = sessionStorage.getItem("chalkName")
+  const isLoggedIn = localStorage.getItem("LoggedIn") === "true";
 
   useEffect(() => {
     const currentPathname = window.location.pathname;
@@ -19,13 +18,12 @@ const Navbar = () => {
       currentPathname === "/PostChalk/Image" ||
       currentPathname === "/PostChalk/Videos"
     ) {
-      if (!LoggedIn) navigate("/Login", { replace: true });
+      if (!isLoggedIn) navigate("/Login", { replace: true });
     }
-  }, [LoggedIn, navigate]);
+  }, [isLoggedIn, navigate]);
 
   function logout() {
-    sessionStorage.setItem("LoggedIn", "false");
-    sessionStorage.setItem("chalkName", "Chalk Shapian");
+    localStorage.setItem("LoggedIn", "false");
     setOpen(false);
     navigate("/Login", { replace: true });
   }
@@ -38,7 +36,7 @@ const Navbar = () => {
     } else if (currentPathname === "/Forum") {
       setActiveLink("Forum");
     }
-  }, [LoggedIn]);
+  }, [isLoggedIn]);
   
   function handleLinkClick(linkName) {
     if (linkName === "Forum") {
@@ -84,7 +82,7 @@ const Navbar = () => {
           </div>
           <div id="profile" onClick={profileOpen}>
               <>
-                Hi,&nbsp;<u>{name}</u>&nbsp;&nbsp;
+                Hi,&nbsp;<u>Chalk Shapian</u>&nbsp;&nbsp;
                 <img className="profile" src={Profile} alt="" />
               </>
           </div>
