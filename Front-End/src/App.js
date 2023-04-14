@@ -1,10 +1,10 @@
 import "./index.css";
-import Login from "./Components/login";
-import SignUp from "./Components/signup";
-import Discover from "./Components/discover";
+import Login from "./Components/Login";
+import SignUp from "./Components/Signup";
+import Discover from "./Components/Discover";
 import PostChalk from "./Components/PostChalk";
-import Forum from "./Components/forum";
-import ChalkName from "./Components/chalkname";
+import Forum from "./Components/Forum";
+import ChalkName from "./Components/ChalkName";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
