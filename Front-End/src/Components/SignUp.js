@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import "../CSS/SignUp.css";
+import "../CSS/signup.css";
 import Gif from "../Resources/Chalk_Shapian.gif";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../FireBase";
+import { auth, db } from "../FireBase";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUp = () => {
   const [values, setValues] = useState({
@@ -14,7 +15,6 @@ const SignUp = () => {
   });
 
   const navigate = useNavigate();
-
   const validateEmail = (email) => {
     // regex to check email format
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -51,27 +51,44 @@ const SignUp = () => {
       );
       return;
     }
+
     if (!validateEmail(email)) {
       alert("Please enter a valid email address.");
       return;
     }
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then(async (res) => {
+      .then(async (userCredential) => {
         sessionStorage.setItem("LoggedIn", true);
-        await updateProfile(res.user, {
+        await updateProfile(userCredential.user, {
           displayName: name,
         });
         sessionStorage.setItem("chalkName", chalkName);
-        navigate("/Discover");
+        navigate("/discover");
+
+        const user = userCredential.user;
+        const uid = user.uid;
+
+        // Save the user's information to Firestore
+        try {
+          await setDoc(doc(db, "users", uid), {
+            chalkName: chalkName,
+            name: name,
+            email: email,
+          });
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
       })
-      .catch((err) => {
-        if (err.code === "auth/email-already-in-use") {
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (errorCode === "auth/email-already-in-use") {
           alert("This email address is already in use.");
         } else {
-          console.log(err);
+          console.error(errorMessage);
           alert("An error occurred. Please try again later.");
-        }
+        } 
       });
   };
   return (
@@ -171,7 +188,7 @@ const SignUp = () => {
             </div>
             <div className="alreadyAccount">
               <div className="already">Already have a account ?</div>
-              <Link className="login" to="/Login">
+              <Link className="login" to="/login">
                 Login
               </Link>
             </div>
@@ -183,4 +200,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-

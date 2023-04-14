@@ -74,9 +74,20 @@
       flex-direction: column;
       align-content: center;
       overflow-y: scroll;
-      scrollbar-width: thin;
-      scrollbar-color: #15ff00 #fff70028;
       padding-right: 1vw;
+      margin-top: -0.65vh;
+  }
+  .chats::-webkit-scrollbar {
+    width: 0.3vw;
+  }
+  
+  .chats::-webkit-scrollbar-track {
+    background-color: #fff70028;
+  }
+  
+  .chats::-webkit-scrollbar-thumb {
+    background-color: #15ff00;
+    border-radius: 1vw;
   }
   .me{
     display: flex;

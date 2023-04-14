@@ -1,11 +1,12 @@
-import "../CSS/Login.css";
+import "../CSS/login.css";
 import Gif from "../Resources/Chalk_Shapian.gif";
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { auth } from "../FireBase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../FireBase";
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getDoc, setDoc, doc } from "firebase/firestore";
 const google =
   "https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png";
 
@@ -25,7 +26,7 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(async (res) => {
         sessionStorage.setItem("LoggedIn", true);
-        navigate("/Discover");
+        navigate("/discover");
       })
       .catch((err) => {
         if (err.code === "auth/user-not-found") {
@@ -42,6 +43,36 @@ const Login = () => {
         }
       });
   };
+  
+  const provider = new GoogleAuthProvider();
+  
+  const popUp = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+  
+      // check if user already exists in database
+      const userRef = doc(db, "users", user.uid);
+      const docSnapshot = await getDoc(userRef);
+      if (docSnapshot.exists()) {
+        // user already exists, navigate to "/discover"
+        navigate("/discover");
+        sessionStorage.setItem("LoggedIn", true);
+      } else {
+        // user does not exist, create new user and navigate to "/chalkname"
+        const newUser = {
+          displayName: user.displayName,
+          email: user.email,
+          chalkName: "",
+        };
+        await setDoc(userRef, newUser);
+        navigate("/chalkname");
+      }
+    } catch (error) {
+      alert("Authentication failed. Please try again.");
+    }
+  };
+
   return (
     <>
       <div className="bg">
@@ -88,13 +119,13 @@ const Login = () => {
               OR
               <div className="hLine" />
             </div>
-            <div className="google">
+            <div className="google" onClick={popUp}>
               <img src={google} alt="" id="google" />
               Sign-in with Google
             </div>
             <div className="noAccount">
               <div className="dont">Don’t have an account?</div>
-              <Link className="signUp" to="/SignUp">
+              <Link className="signUp" to="/signup">
                 Sign Up
               </Link>
             </div>
