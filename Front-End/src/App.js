@@ -4,6 +4,7 @@ import SignUp from "./Components/SignUp";
 import Discover from "./Components/Discover";
 import PostChalk from "./Components/PostChalk";
 import Forum from "./Components/Forum";
+import ChalkName from "./Components/ChalkName";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/PostChalk/Image" element={<PostChalk />} />
         <Route path="/PostChalk/Videos" element={<PostChalk />} />
+        <Route path="/ChalkName" element={<ChalkName />} />
       </Routes>
     </BrowserRouter>
   );

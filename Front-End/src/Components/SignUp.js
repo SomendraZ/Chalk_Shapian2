@@ -1,18 +1,33 @@
 import { Link, useNavigate } from "react-router-dom";
-import React from "react";
-
+import React, { useState } from "react";
 import "../CSS/SignUp.css";
 import Gif from "../Resources/Chalk_Shapian.gif";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../FireBase";
 
 const SignUp = () => {
+  const [values, setValues] = useState({
+    username: "",
+    name: "",
+    email: "",
+    password: "",
+  });
+
   const navigate = useNavigate();
+
+  const validateEmail = (email) => {
+    // regex to check email format
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   const signup = async (event) => {
     event.preventDefault();
 
-    const chalkName = document.getElementById("chalkNameSignUp").value;
-    const name = document.getElementById("nameSignUp").value;
-    const email = document.getElementById("emailSignUp").value;
-    const password = document.getElementById("passwordSignUp").value;
+    const chalkName = values.username;
+    const name = values.name;
+    const email = values.email;
+    const password = values.password;
     const confirmPassword = document.getElementById(
       "confirmPasswordSignUp"
     ).value;
@@ -36,8 +51,28 @@ const SignUp = () => {
       );
       return;
     }
+    if (!validateEmail(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
 
-    navigate("/Discover");
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async (res) => {
+        sessionStorage.setItem("LoggedIn", true);
+        await updateProfile(res.user, {
+          displayName: name,
+        });
+        sessionStorage.setItem("chalkName", chalkName);
+        navigate("/Discover");
+      })
+      .catch((err) => {
+        if (err.code === "auth/email-already-in-use") {
+          alert("This email address is already in use.");
+        } else {
+          console.log(err);
+          alert("An error occurred. Please try again later.");
+        }
+      });
   };
   return (
     <>
@@ -49,39 +84,82 @@ const SignUp = () => {
           <div className="SignUpPage">
             <div className="SignUpToAccount">Create Account</div>
             <form>
-              <div className="flexRow">
-                <div className="chalkNameSignUp">CHALK NAME</div>
-                <div className="red">*</div>
+              <div>
+                <div className="flexRow">
+                  <div className="chalkNameSignUp">CHALK NAME</div>
+                  <div className="red">*</div>
+                </div>
+                <input
+                  id="chalkNameSignUp"
+                  placeholder="User Name"
+                  type="text"
+                  onChange={(event) =>
+                    setValues((prev) => ({
+                      ...prev,
+                      username: event.target.value,
+                    }))
+                  }
+                />
               </div>
-              <input id="chalkNameSignUp" placeholder="User Name" type="text" />
-              <div className="flexRow">
-                <div className="nameSignUp">NAME</div>
-                <div className="red">*</div>
+              <div>
+                <div className="flexRow">
+                  <div className="nameSignUp">NAME</div>
+                  <div className="red">*</div>
+                </div>
+                <input
+                  id="nameSignUp"
+                  placeholder="Name"
+                  type="text"
+                  onChange={(event) =>
+                    setValues((prev) => ({ ...prev, name: event.target.value }))
+                  }
+                />
               </div>
-              <input id="nameSignUp" placeholder="Name" type="text" />
-              <div className="flexRow">
-                <div className="emailSignUp">EMAIL</div>
-                <div className="red">*</div>
+              <div>
+                <div className="flexRow">
+                  <div className="emailSignUp">EMAIL</div>
+                  <div className="red">*</div>
+                </div>
+                <input
+                  id="emailSignUp"
+                  placeholder="Email"
+                  type="email"
+                  onChange={(event) =>
+                    setValues((prev) => ({
+                      ...prev,
+                      email: event.target.value,
+                    }))
+                  }
+                />
               </div>
-              <input id="emailSignUp" placeholder="Email" type="email" />
-              <div className="flexRow">
-                <div className="passwordSignUp">PASSWORD</div>
-                <div className="red">*</div>
+              <div>
+                <div className="flexRow">
+                  <div className="passwordSignUp">PASSWORD</div>
+                  <div className="red">*</div>
+                </div>
+                <input
+                  id="passwordSignUp"
+                  placeholder="Password"
+                  type="password"
+                  onChange={(event) =>
+                    setValues((prev) => ({
+                      ...prev,
+                      password: event.target.value,
+                    }))
+                  }
+                />
               </div>
-              <input
-                id="passwordSignUp"
-                placeholder="Password"
-                type="password"
-              />
-              <div className="flexRow">
-                <div className="confirmPasswordSignUp">CONFIRM PASSWORD</div>
-                <div className="red">*</div>
+              <div>
+                <div className="flexRow">
+                  <div className="confirmPasswordSignUp">CONFIRM PASSWORD</div>
+                  <div className="red">*</div>
+                </div>
+                <input
+                  id="confirmPasswordSignUp"
+                  placeholder="Confirm Password"
+                  type="password"
+                />
               </div>
-              <input
-                id="confirmPasswordSignUp"
-                placeholder="Confirm Password"
-                type="password"
-              />
               <button className="SignUpBtn" onClick={signup} type="submit">
                 SignUp
               </button>
@@ -105,3 +183,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
