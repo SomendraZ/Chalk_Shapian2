@@ -42,7 +42,7 @@
     font-weight: 500;
     text-shadow: 0.1vw 0.15vw 0.2vw rgba(255, 255, 255, 0.2);
     height: 2.5vw;
-    padding: 0vw 1.3vw;
+    padding: 1vw 1.3vw;
     padding-bottom: 0.7vw;
     margin-left: 10vw;
     margin-right: 10vw;
@@ -52,6 +52,7 @@
     box-shadow: 0vw 0.2vw 0.2vw #fff500;
     border-radius: 0px 0px 1.2vw 1.2vw;
     position: fixed;
+    margin-top: -0.65vh;
   }
   #filter {
     color: #000000;

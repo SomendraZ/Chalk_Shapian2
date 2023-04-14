@@ -8,18 +8,18 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState("");
   const [open, setOpen] = useState(false);
-  const LoggedIn = localStorage.getItem("LoggedIn") === "true";
+  const LoggedIn = sessionStorage.getItem("LoggedIn") === "true";
   const name = sessionStorage.getItem("chalkName")
 
   useEffect(() => {
     const currentPathname = window.location.pathname;
     if (
-      currentPathname === "/Discover" ||
-      currentPathname === "/Forum" ||
-      currentPathname === "/PostChalk/Image" ||
-      currentPathname === "/PostChalk/Videos"
+      currentPathname === "/discover" ||
+      currentPathname === "/forum" ||
+      currentPathname === "/post/image" ||
+      currentPathname === "/post/video"
     ) {
-      if (!LoggedIn) navigate("/Login", { replace: true });
+      if (!LoggedIn) navigate("/login", { replace: true });
     }
   }, [LoggedIn, navigate]);
 
@@ -27,35 +27,35 @@ const Navbar = () => {
     sessionStorage.setItem("LoggedIn", "false");
     sessionStorage.setItem("chalkName", "Chalk Shapian");
     setOpen(false);
-    navigate("/Login", { replace: true });
+    navigate("/login", { replace: true });
   }
 
   useEffect(() => {
     setActiveLink("Discover");
     const currentPathname = window.location.pathname;
-    if (currentPathname === "/Discover") {
+    if (currentPathname === "/discover") {
       setActiveLink("Discover");
-    } else if (currentPathname === "/Forum") {
+    } else if (currentPathname === "/forum") {
       setActiveLink("Forum");
     }
   }, [LoggedIn]);
   
   function handleLinkClick(linkName) {
     if (linkName === "Forum") {
-      navigate("/Forum");
+      navigate("/forum");
     } else if (linkName === "Discover") {
-      navigate("/Discover");
+      navigate("/discover");
     }
   }
 
   function profileOpen() {
     setOpen(!open);
-  } 
+  }
 
   return (
     <>
       <div className="navbar">
-        <Link to="/Discover">
+        <Link to="/discover">
           <img id="chalk" src={Chalk} alt="" />
         </Link>
         <div className="bar">
@@ -66,8 +66,8 @@ const Navbar = () => {
                 activeLink === "Discover" ? "contToggle" : "contNotToggle"
               }
               onClick={() => handleLinkClick("Discover")}
-              to="/Discover"
-              exact
+              to="/discover"
+              exact="true"
             >
               Discover
             </Link>
@@ -77,7 +77,7 @@ const Navbar = () => {
                   activeLink === "Forum" ? "contToggle" : "contNotToggle"
                 }
                 onClick={() => handleLinkClick("Forum")}
-                to="/Forum"
+                to="/forum"
               >
                 Forum
               </Link>

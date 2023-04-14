@@ -13,12 +13,12 @@ const PostChalk = () => {
   const [PostChalkVideo, setPostChalkVideo] = useState("contChalkVideo");
   const changePostChalkImage = () => {
     setIsImage(true)
-    navigate('/PostChalk/Image')
+    navigate('/post/image')
     setPostChalkImage("contChalkImage");
     setPostChalkVideo("contChalkVideo");
   };
   const changePostChalkVideo = () => {
-    navigate('/PostChalk/Videos')
+    navigate('/post/video')
     setIsImage(false)
     setPostChalkImage("contChalkVideo");
     setPostChalkVideo("contChalkImage");

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ChalkArt from "../Resources/Chalk_Art.jpg";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import "../CSS/Discover.css";
+import "../CSS/discover.css";
 
 const Discover = () => {
   const [StyleAll, setStyleAll] = useState("contAll");
@@ -26,7 +26,7 @@ const Discover = () => {
   };
   return (
     <>
-      <Navbar />
+      <Navbar/>
       <div className="discover">
         <div className="discoverBar">
           <select name="filter" className="custom-select" id="filter">
@@ -58,7 +58,7 @@ const Discover = () => {
             </div>
           </div>
         </div>
-        <Link className="float" to="/PostChalk/Image">
+        <Link className="float" to="/post/image">
           <i className="fa fa-plus my-float"></i>
         </Link>
         <div className="content">
