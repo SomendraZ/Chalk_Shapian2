@@ -1,11 +1,18 @@
-import "../CSS/login.css";
+import "../CSS/Login.css";
 import Gif from "../Resources/Chalk_Shapian.gif";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { auth, db } from "../FireBase";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { getDoc, setDoc, doc } from "firebase/firestore";
 const google =
   "https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png";
@@ -17,9 +24,21 @@ const Login = () => {
     event.preventDefault();
     const email = values.email;
     const password = values.password;
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address.", {
+        position: "top-left",
+        autoClose: 1000,
+      });
+      return;
+    }
     // Check if any of the input fields are empty
     if (!email || !password) {
-      alert("Please fill out all the fields before submitting.");
+      toast.error("Please fill out all the fields before submitting.", {
+        position: "top-left",
+        autoClose: 1000,
+      });
       return;
     }
 
@@ -30,27 +49,38 @@ const Login = () => {
       })
       .catch((err) => {
         if (err.code === "auth/user-not-found") {
-          alert(
-            "No user found with this email address. Please check your email and try again."
+          toast.error(
+            "No user found with this email address. Please check your email and try again.",
+            {
+              position: "top-left",
+              autoClose: 1000,
+            }
           );
         } else if (err.code === "auth/wrong-password") {
-          alert(
-            "Incorrect password. Please check your password and try again."
+          toast.error(
+            "Incorrect password. Please check your password and try again.",
+            {
+              position: "top-left",
+              autoClose: 1000,
+            }
           );
         } else {
           console.log(err);
-          alert("An error occurred. Please try again later.");
+          toast.error("An error occurred. Please try again later.", {
+            position: "top-left",
+            autoClose: 1000,
+          });
         }
       });
   };
-  
+
   const provider = new GoogleAuthProvider();
-  
+
   const popUp = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-  
+
       // check if user already exists in database
       const userRef = doc(db, "users", user.uid);
       const docSnapshot = await getDoc(userRef);
@@ -69,12 +99,16 @@ const Login = () => {
         navigate("/chalkname");
       }
     } catch (error) {
-      alert("Authentication failed. Please try again.");
+      toast.error("Authentication failed. Please try again.", {
+        position: "top-left",
+        autoClose: 1000,
+      });
     }
   };
 
   return (
     <>
+      <ToastContainer />
       <div className="bg">
         <div className="gif">
           <div id="gif">

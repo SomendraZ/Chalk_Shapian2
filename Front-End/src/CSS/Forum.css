@@ -76,6 +76,7 @@
       overflow-y: scroll;
       padding-right: 1vw;
       margin-top: -0.65vh;
+      padding-top: 1vh;
   }
   .chats::-webkit-scrollbar {
     width: 0.3vw;

@@ -1,6 +1,6 @@
 import "./index.css";
 import Login from "./Components/Login";
-import SignUp from "./Components/Signup";
+import SignUp from "./Components/SignUp";
 import Discover from "./Components/Discover";
 import PostChalk from "./Components/PostChalk";
 import Forum from "./Components/Forum";

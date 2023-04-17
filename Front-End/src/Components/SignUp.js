@@ -1,7 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import "../CSS/signup.css";
+import "../CSS/SignUp.css";
 import Gif from "../Resources/Chalk_Shapian.gif";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../FireBase";
 import { doc, setDoc } from "firebase/firestore";
@@ -34,26 +38,38 @@ const SignUp = () => {
 
     // Check if any of the input fields are empty
     if (!chalkName || !name || !email || !password || !confirmPassword) {
-      alert("Please fill out all the fields before submitting.");
+      toast.error("Please fill out all the fields before submitting.", {
+        position: "top-left",
+        autoClose: 1000,
+      });
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.warning("Passwords do not match", {
+        position: "top-left",
+        autoClose: 1000,
+      });
       return;
     }
 
     // Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 number, and 1 special character
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$&*])(?=.{8,})/;
     if (!passwordRegex.test(password)) {
-      alert(
-        "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 number, and 1 special character"
+      toast.warning(
+        "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 number, and 1 special character", {
+          position: "top-left",
+          autoClose: 1000,
+        }
       );
       return;
     }
 
     if (!validateEmail(email)) {
-      alert("Please enter a valid email address.");
+      toast.warning("Please enter a valid email address.", {
+        position: "top-left",
+        autoClose: 1000,
+      });
       return;
     }
 
@@ -84,15 +100,22 @@ const SignUp = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         if (errorCode === "auth/email-already-in-use") {
-          alert("This email address is already in use.");
+          toast.error("This email address is already in use.", {
+            position: "top-left",
+            autoClose: 1000,
+          });
         } else {
           console.error(errorMessage);
-          alert("An error occurred. Please try again later.");
+          toast.error("An error occurred. Please try again later.", {
+            position: "top-left",
+            autoClose: 1000,
+          });
         } 
       });
   };
   return (
     <>
+    <ToastContainer/>
       <div className="bg">
         <div className="gif">
           <div id="gif">
