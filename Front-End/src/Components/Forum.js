@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./Navbar";
 // import Footer from "./Footer";
 import Profile from "../Resources/profile.png";
-import "../CSS/forum.css";
+import "../CSS/Forum.css";
 
 const Forum = () => {
   return (

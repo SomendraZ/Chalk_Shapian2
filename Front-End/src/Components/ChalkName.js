@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import "../CSS/chalkname.css";
+import "../CSS/ChalkName.css";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../FireBase";
 import { doc, setDoc } from "firebase/firestore";
@@ -18,8 +22,11 @@ const ChalkName = () => {
         alert("Please enter a Chalk Name.");
         return;
       } else if (!/^[a-zA-Z0-9 ]*$/.test(chalkName)) {
-        alert(
-          "Chalk Name can only contain alphabets, numbers, and spaces."
+        toast.warning(
+          "Chalk Name can only contain alphabets, numbers, and spaces.", {
+            position: "top-right",
+            delay: 1000,
+          }
         );
         return;
       }
@@ -52,6 +59,7 @@ const ChalkName = () => {
 
   return (
     <>
+    <ToastContainer/>
       <div className="bgcolor">
         <h1>Enter Chalk Name : </h1>
         <input

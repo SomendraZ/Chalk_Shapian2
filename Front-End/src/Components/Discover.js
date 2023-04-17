@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ChalkArt from "../Resources/Chalk_Art.jpg";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import "../CSS/discover.css";
+import "../CSS/Discover.css";
 
 const Discover = () => {
   const [StyleAll, setStyleAll] = useState("contAll");
