@@ -24,18 +24,19 @@ const Login = () => {
     event.preventDefault();
     const email = values.email;
     const password = values.password;
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-      toast.error("Please enter a valid email address.", {
+    
+     // Check if any of the input fields are empty
+     if (!email || !password) {
+      toast.error("Please fill out all the fields before submitting.", {
         position: "top-left",
         autoClose: 1000,
       });
       return;
     }
-    // Check if any of the input fields are empty
-    if (!email || !password) {
-      toast.error("Please fill out all the fields before submitting.", {
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address.", {
         position: "top-left",
         autoClose: 1000,
       });

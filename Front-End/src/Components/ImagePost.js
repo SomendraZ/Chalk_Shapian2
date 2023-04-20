@@ -1,6 +1,10 @@
 import { useState } from "react";
 import "../CSS/ImagePost.css";
-import { auth } from "../FireBase";
+import { ToastContainer, toast } from "react-toastify";
+
+import { auth, storage } from "../FireBase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+
 let plus =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Plus_symbol.svg/500px-Plus_symbol.svg.png";
 
@@ -10,6 +14,8 @@ const ImagePost = () => {
   const [artist, setImageArtist] = useState("");
   const [description, setImageDescription] = useState("");
   const [filters, setImageFilters] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imgURL, setImgURL] = useState("");
   const type = "image";
 
   const postImage = async (e) => {
@@ -20,27 +26,45 @@ const ImagePost = () => {
       e.preventDefault();
 
       try {
-        const response = await fetch("/image", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            uid,
-            email,
-            type,
-            title,
-            toolsUsed,
-            artist,
-            description,
-            filters,
-          }),
-        });
+        // Send the post data to your API
+        const response = await fetch(
+          `http://localhost:${process.env.REACT_APP_PORT}/image`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              uid,
+              email,
+              type,
+              title,
+              toolsUsed,
+              artist,
+              description,
+              filters,
+              imgURL,
+            }),
+          }
+        );
 
         const data = await response.json();
-        console.log(data);
+        if (data === 1) {
+          toast.success("Post sent successfully.", {
+            position: "top-left",
+            autoClose: 1000,
+          });
+        } else if (data !== 1) {
+          toast.error("Post not sent.", {
+            position: "top-left",
+            autoClose: 1000,
+          });
+        }
       } catch (error) {
-        console.error(error);
+        toast.error(`${error}`, {
+          position: "top-left",
+          autoClose: 1000,
+        });
       }
     }
   };
@@ -56,14 +80,49 @@ const ImagePost = () => {
     }
   };
 
+  function handleImageChange(e) {
+    setSelectedImage(URL.createObjectURL(e.target.files[0]));
+  
+    const timestamp = Date.now();
+    const image = e.target.files[0];
+    const storageRef = ref(storage, `images/${timestamp}`);
+    uploadBytes(storageRef, image)
+      .then(() => {
+        return getDownloadURL(storageRef);
+      })
+      .then((url) => {
+        setImgURL(url);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   return (
     <>
+      <ToastContainer />
       <div className="image">
         <div className="imageDetails">
-          <div className="imageImage">
-            <img src={plus} alt="" id="imageImage" />
-            Add Image
+          <div className="addImage">
+            Add Image :
+            <input
+              type="file"
+              id="imageAdd"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
+            <label htmlFor="imageAdd">
+              <div className="imageImage">
+                {selectedImage ? (
+                  <img src={selectedImage} alt="" id="imageImage" />
+                ) : (
+                  <img src={plus} alt="" id="imageImage" />
+                )}
+              </div>
+            </label>
           </div>
+
           <div className="imageRight">
             <div className="imageTitle">Post Title :</div>
             <input

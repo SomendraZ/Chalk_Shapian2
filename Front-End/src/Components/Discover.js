@@ -1,14 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ChalkArt from "../Resources/Chalk_Art.jpg";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "../CSS/Discover.css";
+import { getDocs, newestPost } from "../FireBase";
 
 const Discover = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    getDocs(newestPost)
+      .then((snapshot) => {
+        let postsArr = [];
+        snapshot.docs.forEach((doc) => {
+          postsArr.push({ ...doc.data(), id: doc.id });
+        });
+        setPosts(postsArr);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
   const [StyleAll, setStyleAll] = useState("contAll");
   const [StyleImage, setStyleImage] = useState("contVideo");
   const [StyleVideo, setStyleVideo] = useState("contVideo");
+
   const changeStyleAll = () => {
     setStyleAll("contAll");
     setStyleImage("contVideo");
@@ -62,86 +79,27 @@ const Discover = () => {
           <i className="fa fa-plus my-float"></i>
         </Link>
         <div className="content">
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          <div className="imgContent">
-            <img src={ChalkArt} alt="" id="imgChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div>
-          {/* <div className="vidContent">
-            <img src={ChalkArt} alt="" id="vidChalk" />
-            <div className="craftName">Man's Face</div>
-            <div className="artistName">SomendraZ</div>
-          </div> */}
+        {posts.map((post) => {
+            if (post.type === "image") {
+              return (
+                <div className="imgContent" key={post.id}>
+                  <img src={post.imgURL} alt="chalk carving" id="imgChalk"/>
+                  <div className="craftName">{post.title}</div>
+                  <div className="artistName">{post.artist}</div>
+                </div>
+              );
+            } else if (post.type === "video") {
+              return (
+                <div className="vidContent" key={post.id}>
+                  <img src={post.imgCoverURL} alt="chalk carving" id="vidChalk" />
+                  <div className="craftName">{post.title}</div>
+                  <div className="artistName">{post.artist}</div>
+                </div>
+              );
+            } else {
+              return null; // Post type not recognized
+            }
+          })}
         </div>
       </div>
       <Footer />
