@@ -17,10 +17,13 @@
     font-size: 2vw;
     font-family: "Marvel", sans-serif;
     font-weight: 700;
-    background-color: aliceblue;
-    border-radius: 1.3vw;
-    height: 17vw;
-    width: 14vw;
+    background: #d9d9d9;
+    border-radius: 1vw;
+    height: 14.25vw;
+    width: 12vw;
+    margin-top: 0.5vw;
+    cursor: pointer;
+    overflow: hidden;
   }
   .imageRight {
     display: flex;
@@ -29,6 +32,19 @@
   }
   #imageImage {
     height: 10vw;
+  }
+  .addImage{
+    color: aliceblue;
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    font-size: 1.75vw;
+    text-shadow: 0.1vw 0.2vw 0.3vw rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.5vw;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-between;
   }
   .imageTitle,
   .imageToolsUsed,
@@ -151,10 +167,13 @@
     font-size: 4.75vw;
     font-family: "Marvel", sans-serif;
     font-weight: 700;
-    background-color: aliceblue;
+    background: #d9d9d9;
     border-radius: 1.3vw;
-    height: 20vh;
-    width: 35vw;
+    height: 17.5vh;
+    width: 32.5vw;
+    cursor: pointer;
+    overflow: hidden;
+    margin-top: 1vh;
   }
   .imageRight {
     display: flex;
@@ -163,6 +182,19 @@
   }
   #imageImage {
     height: 25vw;
+  }
+  .addImage{
+    color: aliceblue;
+    font-family: "Marvel", sans-serif;
+    font-weight: 700;
+    font-size: 5.5vw;
+    text-shadow: 0 0.2vw 0.2vw rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.5vh;
+    margin-top: 1.5vh;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .imageTitle,
   .imageToolsUsed,
@@ -179,7 +211,7 @@
   #imageTitle,
   #imageToolsUsed,
   #imageArtist {
-    background: #ffffff;
+    background: #d9d9d9;
     width: 75vw;
     height: 3.5vh;
     border: 0;
@@ -194,7 +226,7 @@
     outline: none;
   }
   .filters {
-    color: white;
+    color: #d9d9d9;
     font-family: "Marvel", sans-serif;
     font-size: 3.5vw;
     font-weight: 500;
@@ -222,7 +254,7 @@
     margin-right: 0.5vh;
   }
   #imageDescription {
-    background: #ffffff;
+    background: #d9d9d9;
     width: 75vw;
     max-width: 75vw;
     min-width: 75vw;

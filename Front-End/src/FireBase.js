@@ -1,7 +1,14 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, addDoc, getDocs, where } from "firebase/firestore";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getFirestore,
+  addDoc,
+  getDocs,
+  where,
+  collection
+} from "firebase/firestore";
 
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -18,10 +25,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage();
 
 // Create Google provider instance
 const provider = new GoogleAuthProvider();
 
-export { db, auth, provider, addDoc, getDocs, where, signInWithPopup };
+const newestPost = collection(db, "posts");
+
+export { db, auth, provider, newestPost, addDoc, getDocs, where, signInWithPopup, storage };

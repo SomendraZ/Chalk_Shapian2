@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "chalk-shapian-001",
+  "private_key_id": "50148d6c9a5f3ed75d478c8151c4aab077c8212d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDNXv+FD1AGSm3W\n1E/Sk/MEJ75VYItQe6QMOirGahu7kCYGufxW6pA6aM7oa6cMnTKLT2iZjk9lcWg0\nS1BxIfkAY/c+sCm3+c3Lj/wv+2WRRMMAEyOXVpCURPoxANHRNoafvhqicpA+tmVl\nnjf5q1sCxHKCpfrsVrayEywsyQ6d+6VFpaIq6tERmL+T9Oz8yfV5ET7RAu2kHubR\n2HsQxI1BgF3DhrOaz+Gc3Gor5rropHLPTClbCQCEVLTZcW5KTX75YrXLiqKFhj7I\nshQT+owj/2UfW52MVEm0qZ6kklVnZV9EyYfvzKvHy1hDMQAw7Ru2Ui8qTwobshdn\nir0xWmV9AgMBAAECggEABOud6fAJe0pvjOzuR/3Kcz2JMQjMna4wqn2pm7JcHWd2\njxpdTNnMKydqrvqGozs67vKFRN86JhSMVMBp2iQLEAgqcCKOr/04rIQJHJSEhPFQ\nTgv8rM9iobgbWcQ1bV1F5sWKZCekLr8g+R52zzEHT67UOC7GLxZkGdUdbantgznC\nvsmb4aNZELIo8ZU9e2aWLTKPel61k0aQe4+FzNZ+ryow/YmlteAjWaDwhYXu+EmT\ne86Brl2a/v6wDLNIXkeVVXRKqffrymu5wMCoKFHny5KDFp72R1ei7JytR4iWOjUo\njFk8WRr4uzLzbtp4mQIDCa8NdqA8tHdobuXzO2Nf0wKBgQDocebBHBwomk3ZmU2l\nAECZk0KUBbDrO5DoQPbdmArBMaWXDxFbigp60bkgL8sp9mWHyD6jzvHwRSAISnGW\nBx2Ig7bryeSdh80MHdThwTsRbhtQWrWmzYmSbK0f/1n0toazlc5RLHG1LTBLbBS7\nZR7JY4izHoLo4ul3naJOGp70+wKBgQDiLr7n62rYLNry2MrsCT4ThBScIchUvv9Y\nu95ghHGYDaWLpadUZLUBo1YGOHeMkAG06tk3CYCufPDXl50O+rlVJxC4AKEWBwOY\n7JxuFMhRrrG622lNWfcnvQFgXf5Y5gMmXrglLkHosMbODCQoL593oK2ik3Dvu6+4\n+5mOQXxV5wKBgD/DjyOGTIsu2RBKJ6yNxyrZ5LeqYAAHlRbBS3c6UCjzL5OixIYx\n9fH/OiOEON1IBE4dNmHFUUUyETl1Ane/d/CNAU7pUVeNe0hJnq5XTZbYd5GxcIdT\ndtu+CDfw2oJw177H55MI+CBVRxxJh95oPOvN7CAGzK6KILV5fp6iWtylAoGAEez2\ngFbuDtfvOlPoMTDCVLWhFIaw49aHUjcBdtDIV+6s8hZc3plkpw6U4MVU5DT9jaMX\nN/9uzWVliRChB/DjA1anQo36Nk60AEiwVSEchyy7NT3yaIj6x5F5LHQGlnEUStQy\n7+9slc580xOvQegUUVzQphPdXYKYeKaoEtgpzH0CgYEAlhZG9CbvsB0MNps7aBhS\npQTW0OInkDZtZpO8rYccYJuhYD29wjYihU2FCqAidRtC7Oxk1dG6NAmmh40pCb7+\n4HSmRih7WXfSnyv+I50TmZbeAq8cCil61+0U/eDUIalpf716KG5FZLF2087Rtraa\nxraWkMppAxD2pgEGUvou31c=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-nh0xn@chalk-shapian-001.iam.gserviceaccount.com",
+  "client_id": "106895840749729282392",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-nh0xn%40chalk-shapian-001.iam.gserviceaccount.com"
+}

@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import "../CSS/VideoPost.css";
-import { auth } from "../FireBase";
+import { ToastContainer, toast } from "react-toastify";
+
+import { auth, storage } from "../FireBase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+
 let plus =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Plus_symbol.svg/500px-Plus_symbol.svg.png";
 
@@ -11,6 +15,8 @@ const VideoPost = () => {
   const [artist, setVideoArtist] = useState("");
   const [description, setVideoDescription] = useState("");
   const [filters, setVideoFilters] = useState([]);
+  const [selectedCoverImage, setSelectedCoverImage] = useState(null);
+  const [imgCoverURL, setImgCoverURL] = useState("");
   const type = "video";
 
   const postVideo = async (e) => {
@@ -21,28 +27,45 @@ const VideoPost = () => {
       e.preventDefault();
 
       try {
-        const response = await fetch("/video", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            uid,
-            email,
-            type,
-            title,
-            videoLink,
-            toolsUsed,
-            artist,
-            description,
-            filters,
-          }),
-        });
+        const response = await fetch(
+          `http://localhost:${process.env.REACT_APP_PORT}/video`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              uid,
+              email,
+              type,
+              title,
+              videoLink,
+              toolsUsed,
+              artist,
+              description,
+              filters,
+              imgCoverURL,
+            }),
+          }
+        );
 
         const data = await response.json();
-        console.log(data);
+        if (data === 1) {
+          toast.success("Post sent successfully.", {
+            position: "top-left",
+            autoClose: 1000,
+          });
+        } else if (data === 0) {
+          toast.error("Post not sent.", {
+            position: "top-left",
+            autoClose: 1000,
+          });
+        }
       } catch (error) {
-        console.error(error);
+        toast.error("Something went wrong.", {
+          position: "top-left",
+          autoClose: 1000,
+        });
       }
     }
   };
@@ -57,13 +80,48 @@ const VideoPost = () => {
       );
     }
   };
+
+  const handleCoverImageChange = (e) => {
+    setSelectedCoverImage(URL.createObjectURL(e.target.files[0]));
+
+    const timestamp = Date.now();
+    const image = e.target.files[0];
+    const storageRef = ref(storage, `images/${timestamp}`);
+    uploadBytes(storageRef, image)
+      .then(() => {
+        return getDownloadURL(storageRef);
+      })
+      .then((url) => {
+        setImgCoverURL(url);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  
   return (
     <>
+      <ToastContainer />
       <div className="video">
         <div className="videoDetails">
-          <div className="videoImage">
-            <img src={plus} alt="" id="videoImage" />
-            Add Video Cover Link
+        <div className="addImage">
+        Add Video Cover :
+            <input
+              type="file"
+              id="imageAdd"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleCoverImageChange}
+            />
+            <label htmlFor="imageAdd">
+              <div className="imageImage">
+                {selectedCoverImage ? (
+                  <img src={selectedCoverImage} alt="" id="imageImage" />
+                ) : (
+                  <img src={plus} alt="" id="imageImage" />
+                )}
+              </div>
+            </label>
           </div>
           <div className="videoRight">
             <div className="videoTitle">Post Title :</div>

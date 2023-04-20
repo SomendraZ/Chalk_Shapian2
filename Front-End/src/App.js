@@ -23,7 +23,7 @@ function App() {
         if (querySnapshot.size > 0) {
           const chalkName = querySnapshot.docs[0].data().chalkName;
           sessionStorage.setItem("chalkName", chalkName);
-          sessionStorage.setItem("LoggedIn", true);
+          sessionStorage.setItem("LoggedIn", true); 
         } else {
           sessionStorage.setItem("chalkName", "Chalk Shapian");
           sessionStorage.setItem("LoggedIn", false);
