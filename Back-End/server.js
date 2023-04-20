@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 
 const admin = require("firebase-admin");
-const credential = require("./apiKey.json");
+const credential = require("./firebase-adminsdk.json");
 
 const path = require("path");
 app.use("/static", express.static(path.join(__dirname, "public")));
