@@ -67,6 +67,7 @@ const VideoPost = () => {
           toast.success("Post sent successfully.", {
             position: "top-left",
             autoClose: 1000,
+            onClose: () => navigate("/discover")
           });
         } else if (data === 0) {
           toast.error("Post not sent.", {

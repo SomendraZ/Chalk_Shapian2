@@ -6,7 +6,7 @@ import Gif from "../Resources/Chalk_Shapian.gif";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword,   } from "firebase/auth";
 import { auth, db } from "../FireBase";
 import { doc, setDoc } from "firebase/firestore";
 
