@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { collection, getDocs, where } from "firebase/firestore";
 import { auth, db } from "./FireBase";
 
-function App() {
+const App = () => {
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
       if (user) {

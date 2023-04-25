@@ -4,9 +4,12 @@ import { ToastContainer, toast } from "react-toastify";
 
 import { auth, storage } from "../FireBase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 
 let plus =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Plus_symbol.svg/500px-Plus_symbol.svg.png";
+
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 2 MB in bytes
 
 const VideoPost = () => {
   const [title, setVideoTitle] = useState("");
@@ -18,6 +21,7 @@ const VideoPost = () => {
   const [selectedCoverImage, setSelectedCoverImage] = useState(null);
   const [imgCoverURL, setImgCoverURL] = useState("");
   const type = "video";
+  const navigate = useNavigate();
 
   const postVideo = async (e) => {
     const user = auth.currentUser;
@@ -26,9 +30,18 @@ const VideoPost = () => {
     if (user) {
       e.preventDefault();
 
+      // Check if required fields are not empty
+      if (title === "" || artist === "" || selectedCoverImage === null || videoLink ==="") {
+        toast.warning("Please fill in all required fields", {
+          position: "top-left",
+          autoClose: 1000,
+        });
+        return;
+      }
+
       try {
         const response = await fetch(
-          `http://localhost:${process.env.REACT_APP_PORT}/video`,
+          `${process.env.REACT_APP_FIREBASE_FUNCTIONS_URL}/video`,
           {
             method: "POST",
             headers: {
@@ -54,6 +67,7 @@ const VideoPost = () => {
           toast.success("Post sent successfully.", {
             position: "top-left",
             autoClose: 1000,
+            onClose: () => navigate("/discover")
           });
         } else if (data === 0) {
           toast.error("Post not sent.", {
@@ -68,6 +82,7 @@ const VideoPost = () => {
         });
       }
     }
+    navigate("/discover");
   };
 
   const handleFilterChange = (e) => {
@@ -82,10 +97,19 @@ const VideoPost = () => {
   };
 
   const handleCoverImageChange = (e) => {
+    const image = e.target.files[0];
+
+    if (image.size > MAX_IMAGE_SIZE) {
+      toast.warning("Image size should be less than 2 MB", {
+        position: "top-left",
+        autoClose: 1000,
+      });
+      return;
+    }
+
     setSelectedCoverImage(URL.createObjectURL(e.target.files[0]));
 
     const timestamp = Date.now();
-    const image = e.target.files[0];
     const storageRef = ref(storage, `images/${timestamp}`);
     uploadBytes(storageRef, image)
       .then(() => {
@@ -98,14 +122,14 @@ const VideoPost = () => {
         console.error(error);
       });
   };
-  
+
   return (
     <>
       <ToastContainer />
       <div className="video">
         <div className="videoDetails">
-        <div className="addImage">
-        Add Video Cover :
+          <div className="addImage">
+            Add Video Cover :
             <input
               type="file"
               id="imageAdd"

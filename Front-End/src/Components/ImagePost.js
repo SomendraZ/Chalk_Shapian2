@@ -4,9 +4,12 @@ import { ToastContainer, toast } from "react-toastify";
 
 import { auth, storage } from "../FireBase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 
 let plus =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Plus_symbol.svg/500px-Plus_symbol.svg.png";
+
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 2 MB in bytes
 
 const ImagePost = () => {
   const [title, setImageTitle] = useState("");
@@ -17,6 +20,7 @@ const ImagePost = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imgURL, setImgURL] = useState("");
   const type = "image";
+  const navigate = useNavigate();
 
   const postImage = async (e) => {
     const user = auth.currentUser;
@@ -25,10 +29,19 @@ const ImagePost = () => {
     if (user) {
       e.preventDefault();
 
+      // Check if required fields are not empty
+      if (title === "" || artist === "" || selectedImage === null) {
+        toast.warning("Please fill in all required fields", {
+          position: "top-left",
+          autoClose: 1000,
+        });
+        return;
+      }
+      
       try {
         // Send the post data to your API
         const response = await fetch(
-          `http://localhost:${process.env.REACT_APP_PORT}/image`,
+          `${process.env.REACT_APP_FIREBASE_FUNCTIONS_URL}/image`,
           {
             method: "POST",
             headers: {
@@ -53,6 +66,7 @@ const ImagePost = () => {
           toast.success("Post sent successfully.", {
             position: "top-left",
             autoClose: 1000,
+            onClose: () => navigate("/discover")
           });
         } else if (data !== 1) {
           toast.error("Post not sent.", {
@@ -61,7 +75,7 @@ const ImagePost = () => {
           });
         }
       } catch (error) {
-        toast.error(`${error}`, {
+        toast.error("Post not sent.", {
           position: "top-left",
           autoClose: 1000,
         });
@@ -81,10 +95,19 @@ const ImagePost = () => {
   };
 
   function handleImageChange(e) {
-    setSelectedImage(URL.createObjectURL(e.target.files[0]));
-  
-    const timestamp = Date.now();
     const image = e.target.files[0];
+
+    if (image.size > MAX_IMAGE_SIZE) {
+      toast.warning("Image size should be less than 2 MB", {
+        position: "top-left",
+        autoClose: 1000,
+      });
+      return;
+    }
+
+    setSelectedImage(URL.createObjectURL(image));
+
+    const timestamp = Date.now();
     const storageRef = ref(storage, `images/${timestamp}`);
     uploadBytes(storageRef, image)
       .then(() => {

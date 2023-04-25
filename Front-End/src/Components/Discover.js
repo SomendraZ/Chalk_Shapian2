@@ -15,6 +15,10 @@ const Discover = () => {
         snapshot.docs.forEach((doc) => {
           postsArr.push({ ...doc.data(), id: doc.id });
         });
+        
+        // Sort posts in descending order by timestamp
+        postsArr.sort((a, b) => b.timestamp - a.timestamp);
+        
         setPosts(postsArr);
       })
       .catch((err) => {
