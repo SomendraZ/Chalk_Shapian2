@@ -6,7 +6,8 @@ let insta = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram
 let youtubeLink = "https://www.youtube.com/@chalkshapian";
 let youtube = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/2560px-YouTube_full-color_icon_%282017%29.svg.png";
 let twitterLink = "https://twitter.com/chalk_shapian";
-let twitter = "https://mail.google.com/mail/?view=cm&fs=1&to=chalk.shapian@gmail.com";
+const twitter = "https://img.freepik.com/free-icon/twitter_318-674515.jpg";
+let mail = "https://spng.pngfind.com/pngs/s/60-606593_icons-clipart-twitter-twitter-logo-png-transparent-png.png";
 
 const Footer = () => {
   return (
@@ -56,7 +57,7 @@ const Footer = () => {
                 <a href={twitterLink} target="_blank" rel="noreferrer">
                   <img
                     id="twitter"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/2491px-Twitter-logo.svg.png"
+                    src={twitter}
                     alt=""
                   />
                 </a>
@@ -65,7 +66,7 @@ const Footer = () => {
             <div className="hFooterLine" />
             <div id="contact">
               <div className="white">Contact us at:&nbsp;</div>
-              <a href={twitter} className="contact" target="_blank" rel="noreferrer">
+              <a href={mail} className="contact" target="_blank" rel="noreferrer">
                 <div className="yellow">c</div>
                 <div className="green">ha</div>
                 <div className="yellow">lk</div>

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 let plus =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Plus_symbol.svg/500px-Plus_symbol.svg.png";
 
-const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2 MB in bytes
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 2 MB in bytes
 
 const VideoPost = () => {
   const [title, setVideoTitle] = useState("");
@@ -41,7 +41,7 @@ const VideoPost = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:${process.env.REACT_APP_PORT}/video`,
+          `${process.env.REACT_APP_FIREBASE_FUNCTIONS_URL}/video`,
           {
             method: "POST",
             headers: {
