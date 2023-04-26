@@ -19,9 +19,15 @@ const VideoPost = () => {
   const [description, setVideoDescription] = useState("");
   const [filters, setVideoFilters] = useState([]);
   const [selectedCoverImage, setSelectedCoverImage] = useState(null);
-  const [imgCoverURL, setImgCoverURL] = useState("");
+  const [selectedCoverImageFile, setSelectedCoverImageFile] = useState(null);
   const type = "video";
   const navigate = useNavigate();
+
+  const handleCoverImageChange = (e) => {
+    const image = e.target.files[0];
+    setSelectedCoverImageFile(image);
+    setSelectedCoverImage(URL.createObjectURL(image));
+  };
 
   const postVideo = async (e) => {
     const user = auth.currentUser;
@@ -40,6 +46,20 @@ const VideoPost = () => {
       }
 
       try {
+        // Upload image and get download URL
+        const image = selectedImageFile;
+        if (image.size > MAX_IMAGE_SIZE) {
+          toast.warning("Image size should be less than 5 MB", {
+            position: "top-left",
+            autoClose: 1000,
+          });
+          return;
+        }
+        const timestamp = Date.now();
+        const storageRef = ref(storage, `images/${timestamp}`);
+        await uploadBytes(storageRef, image);
+        const imgCoverURL = await getDownloadURL(storageRef);
+
         const response = await fetch(
           `${process.env.REACT_APP_FIREBASE_FUNCTIONS_URL}/video`,
           {
@@ -82,7 +102,6 @@ const VideoPost = () => {
         });
       }
     }
-    navigate("/discover");
   };
 
   const handleFilterChange = (e) => {
@@ -94,33 +113,6 @@ const VideoPost = () => {
         prevFilters.filter((filter) => filter !== value)
       );
     }
-  };
-
-  const handleCoverImageChange = (e) => {
-    const image = e.target.files[0];
-
-    if (image.size > MAX_IMAGE_SIZE) {
-      toast.warning("Image size should be less than 5 MB", {
-        position: "top-left",
-        autoClose: 1000,
-      });
-      return;
-    }
-
-    setSelectedCoverImage(URL.createObjectURL(e.target.files[0]));
-
-    const timestamp = Date.now();
-    const storageRef = ref(storage, `images/${timestamp}`);
-    uploadBytes(storageRef, image)
-      .then(() => {
-        return getDownloadURL(storageRef);
-      })
-      .then((url) => {
-        setImgCoverURL(url);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   };
 
   return (

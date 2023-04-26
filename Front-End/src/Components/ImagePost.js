@@ -18,9 +18,15 @@ const ImagePost = () => {
   const [description, setImageDescription] = useState("");
   const [filters, setImageFilters] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [imgURL, setImgURL] = useState("");
+  const [selectedImageFile, setSelectedImageFile] = useState(null);
   const type = "image";
   const navigate = useNavigate();
+
+  function handleImageChange(e) {
+    const image = e.target.files[0];
+    setSelectedImageFile(image);
+    setSelectedImage(URL.createObjectURL(image));
+  }
 
   const postImage = async (e) => {
     const user = auth.currentUser;
@@ -28,7 +34,7 @@ const ImagePost = () => {
     const email = user.email;
     if (user) {
       e.preventDefault();
-
+  
       // Check if required fields are not empty
       if (title === "" || artist === "" || selectedImage === null) {
         toast.warning("Please fill in all required fields", {
@@ -37,8 +43,22 @@ const ImagePost = () => {
         });
         return;
       }
-      
+  
       try {
+        // Upload image and get download URL
+        const image = selectedImageFile;
+        if (image.size > MAX_IMAGE_SIZE) {
+          toast.warning("Image size should be less than 5 MB", {
+            position: "top-left",
+            autoClose: 1000,
+          });
+          return;
+        }
+        const timestamp = Date.now();
+        const storageRef = ref(storage, `images/${timestamp}`);
+        await uploadBytes(storageRef, image);
+        const imgURL = await getDownloadURL(storageRef);
+  
         // Send the post data to your API
         const response = await fetch(
           `${process.env.REACT_APP_FIREBASE_FUNCTIONS_URL}/image`,
@@ -60,13 +80,13 @@ const ImagePost = () => {
             }),
           }
         );
-
+  
         const data = await response.json();
         if (data === 1) {
           toast.success("Post sent successfully.", {
             position: "top-left",
             autoClose: 1000,
-            onClose: () => navigate("/discover")
+            onClose: () => navigate("/discover"),
           });
         } else if (data !== 1) {
           toast.error("Post not sent.", {
@@ -93,33 +113,6 @@ const ImagePost = () => {
       );
     }
   };
-
-  function handleImageChange(e) {
-    const image = e.target.files[0];
-
-    if (image.size > MAX_IMAGE_SIZE) {
-      toast.warning("Image size should be less than 5 MB", {
-        position: "top-left",
-        autoClose: 1000,
-      });
-      return;
-    }
-
-    setSelectedImage(URL.createObjectURL(image));
-
-    const timestamp = Date.now();
-    const storageRef = ref(storage, `images/${timestamp}`);
-    uploadBytes(storageRef, image)
-      .then(() => {
-        return getDownloadURL(storageRef);
-      })
-      .then((url) => {
-        setImgURL(url);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
 
   return (
     <>
