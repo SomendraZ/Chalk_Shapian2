@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 let plus =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Plus_symbol.svg/500px-Plus_symbol.svg.png";
 
-const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 2 MB in bytes
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB in bytes
 
 const ImagePost = () => {
   const [title, setImageTitle] = useState("");
@@ -98,7 +98,7 @@ const ImagePost = () => {
     const image = e.target.files[0];
 
     if (image.size > MAX_IMAGE_SIZE) {
-      toast.warning("Image size should be less than 2 MB", {
+      toast.warning("Image size should be less than 5 MB", {
         position: "top-left",
         autoClose: 1000,
       });

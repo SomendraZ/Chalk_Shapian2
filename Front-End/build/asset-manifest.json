@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/static/css/main.2d30a6b6.css",
-    "main.js": "/static/js/main.c8a5bdc1.js",
+    "main.js": "/static/js/main.b938bc55.js",
     "static/media/Chalk_Shapian.gif": "/static/media/Chalk_Shapian.5f67c1935571244e1e8b.gif",
     "static/media/chalk_shapian.PNG": "/static/media/chalk_shapian.7471c044198ba3d3357c.PNG",
     "static/media/profile.png": "/static/media/profile.0d29daaa999bcbba4dc5.png",
     "index.html": "/index.html",
     "main.2d30a6b6.css.map": "/static/css/main.2d30a6b6.css.map",
-    "main.c8a5bdc1.js.map": "/static/js/main.c8a5bdc1.js.map"
+    "main.b938bc55.js.map": "/static/js/main.b938bc55.js.map"
   },
   "entrypoints": [
     "static/css/main.2d30a6b6.css",
-    "static/js/main.c8a5bdc1.js"
+    "static/js/main.b938bc55.js"
   ]
 }
