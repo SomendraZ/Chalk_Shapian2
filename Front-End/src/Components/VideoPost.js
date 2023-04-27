@@ -47,7 +47,7 @@ const VideoPost = () => {
 
       try {
         // Upload image and get download URL
-        const image = selectedImageFile;
+        const image = selectedCoverImageFile;
         if (image.size > MAX_IMAGE_SIZE) {
           toast.warning("Image size should be less than 5 MB", {
             position: "top-left",
