@@ -116,15 +116,20 @@
   #searchLogo {
     width: 2.5vw;
   }
-  #imgChalk {
+  #imgChalk, #vidChalk {
     width: 13vw;
     border-radius: 1vw 1vw 0px 0px;
+    max-height: 15.75vw;
   }
   .craftName {
     font-family: "Chakra Petch", sans-serif;
+    text-align: center;
     font-weight: 500;
     font-size: 1.5vw;
     color: #ffffff;
+    padding: 0 1vw;
+    margin-top: 0.1vw;
+    margin-bottom: 0.075vw;
   }
   .artistName {
     font-family: "Chakra Petch", sans-serif;
@@ -297,16 +302,20 @@
     border-radius: 1.2vw;
     padding: 0.1vw;
   }
-  #imgChalk {
+  #imgChalk, #vidChalk {
     width: 21vw;
     border-radius: 2vw 2vw 0px 0px;
+    max-height: 12.5vh;
   }
   .craftName {
     font-family: "Chakra Petch", sans-serif;
+    text-align: center;
     font-weight: 500;
     margin-top: 0.7vw;
     font-size: 3vw;
     color: #ffffff;
+    margin-top: 0.1vh;
+    margin-bottom: 0.075vh;
   }
   .artistName {
     font-family: "Chakra Petch", sans-serif;
