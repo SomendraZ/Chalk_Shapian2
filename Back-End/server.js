@@ -1,4 +1,5 @@
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 const cors = require("cors");
 const express = require("express");
 const app = express();
@@ -24,6 +25,6 @@ app.use("/image", imageRoutes);
 app.use("/video", videoRoutes);
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
+app.listen(PORT, () => { 
   console.log(`Listening to PORT ${PORT}`);
 });

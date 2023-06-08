@@ -116,7 +116,8 @@
   #searchLogo {
     width: 2.5vw;
   }
-  #imgChalk, #vidChalk {
+  #imgChalk,
+  #vidChalk {
     width: 13vw;
     border-radius: 1vw 1vw 0px 0px;
     max-height: 15.75vw;
@@ -185,6 +186,51 @@
   }
   .my-float {
     margin-top: 1.25vw;
+  }
+  #myModal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background-color: #232323;
+    box-shadow: 0 0.1vw 0.1vw #ffffff;
+    max-width: 80vw;
+    padding: 1.75vw;
+    border-radius: 2vw;
+  }
+  #imgModal {
+    border-radius: 2vw;
+    max-height: 50vh;
+    max-width: 50vw;
+    box-shadow: 0.1vw 0.2vw 0.2vw #ffffff;
+  }
+  .close {
+    color: #fff500;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 5vw;
+    font-weight: bold;
+    margin-left: 85%;
+    margin-right: 15%;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+    background-color: rgba(20, 255, 0);
+    height: 3.5vw;
+    width: 2.75vw;
+    margin-bottom: 1vw;
+    border-radius: 2vw;
+    -webkit-text-stroke-width: 0.125vw;
+    -webkit-text-stroke-color: #000000;
+    border: 0.25vw solid black;
+  }
+  #info{
+    display: flex;
+    flex-direction: row;
   }
 }
 @media only screen and (max-width: 550px) {
@@ -302,7 +348,8 @@
     border-radius: 1.2vw;
     padding: 0.1vw;
   }
-  #imgChalk, #vidChalk {
+  #imgChalk,
+  #vidChalk {
     width: 21vw;
     border-radius: 2vw 2vw 0px 0px;
     max-height: 12.5vh;

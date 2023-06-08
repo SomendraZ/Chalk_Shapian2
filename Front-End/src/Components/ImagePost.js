@@ -43,7 +43,13 @@ const ImagePost = () => {
         });
         return;
       }
-  
+
+      toast.info("Posting...", {
+        position: "top-left",
+        autoClose: false,
+        hideProgressBar: true,
+      });
+      
       try {
         // Upload image and get download URL
         const image = selectedImageFile;

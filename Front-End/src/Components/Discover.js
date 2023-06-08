@@ -8,17 +8,27 @@ import { getDocs, newestPost } from "../FireBase";
 const Discover = () => {
   const [posts, setPosts] = useState([]);
 
+  const [openmodal, setOpenModal] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedTitle, setSelectetTitle] = useState(null);
+
+  const imgpopup = (post) => {
+    setOpenModal(!openmodal);
+    setSelectedPost(post);
+    setSelectetTitle(post.title);
+  };
+
   useEffect(() => {
     getDocs(newestPost)
       .then((snapshot) => {
         let postsArr = [];
         snapshot.docs.forEach((doc) => {
-          postsArr.push({ ...doc.data(), id: doc.id });
+          postsArr.push({ ...doc.data(), id: doc.id }); 
         });
-        
+
         // Sort posts in descending order by timestamp
         postsArr.sort((a, b) => b.timestamp - a.timestamp);
-        
+
         setPosts(postsArr);
       })
       .catch((err) => {
@@ -47,7 +57,7 @@ const Discover = () => {
   };
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <div className="discover">
         <div className="discoverBar">
           <select name="filter" className="custom-select" id="filter">
@@ -83,11 +93,27 @@ const Discover = () => {
           <i className="fa fa-plus my-float"></i>
         </Link>
         <div className="content">
-        {posts.map((post) => {
+          {openmodal && selectedPost ? (
+            <div id="myModal">
+              <span className="close" onClick={() => setOpenModal(false)}>
+                &times;
+              </span>
+              <div id="info">
+                <img src={selectedPost.imgURL} alt="" id="imgModal" />
+                <div className="titleModal">{selectedTitle}</div>
+              </div>
+            </div>
+          ) : null}
+          {posts.map((post) => {
             if (post.type === "image") {
               return (
                 <div className="imgContent" key={post.id}>
-                  <img src={post.imgURL} alt="chalk carving" id="imgChalk"/>
+                  <img
+                    src={post.imgURL}
+                    alt="chalk carving"
+                    id="imgChalk"
+                    onClick={() => imgpopup(post)}
+                  />
                   <div className="craftName">{post.title}</div>
                   <div className="artistName">{post.artist}</div>
                 </div>
@@ -95,7 +121,11 @@ const Discover = () => {
             } else if (post.type === "video") {
               return (
                 <div className="vidContent" key={post.id}>
-                  <img src={post.imgCoverURL} alt="chalk carving" id="vidChalk" />
+                  <img
+                    src={post.imgCoverURL}
+                    alt="chalk carving"
+                    id="vidChalk"
+                  />
                   <div className="craftName">{post.title}</div>
                   <div className="artistName">{post.artist}</div>
                 </div>
